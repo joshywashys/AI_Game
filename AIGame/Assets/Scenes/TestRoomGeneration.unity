@@ -320,11 +320,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1763380911}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &740959163
@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.1
   acceleration: 5
+  canMove: 1
 --- !u!50 &804343025
 Rigidbody2D:
   serializedVersion: 4
@@ -589,6 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipedWeapon: {fileID: 370751547}
   distance: 0.7
+  charge: 0
   onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -598,7 +600,6 @@ MonoBehaviour:
   onWeaponChangeEvent:
     m_PersistentCalls:
       m_Calls: []
-  charge: 0
 --- !u!58 &804343028
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -817,6 +818,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 8426389297508006533, guid: 5182103be8c902e4fbdf69225d8e44f8, type: 3}
   roomCount: 0
+--- !u!1 &1763380910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763380911}
+  - component: {fileID: 1763380912}
+  m_Layer: 0
+  m_Name: Camera Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1763380911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763380910}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 519420032}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1763380912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763380910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcfa6be1dd21cc4d9ce315363436eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &1975847492 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 3666517470462143794, guid: 628c3a57d8ee3554788f60600e42b159, type: 3}

@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.GetComponent<EntityBase>() != null)
         {
             EntityBase entity = collision.gameObject.GetComponent<EntityBase>();
-            entity.Damage(damage);
+            entity?.Damage(damage);
         }
     }
 }

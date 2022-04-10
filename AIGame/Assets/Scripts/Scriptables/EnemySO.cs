@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySO : EntitySO
 {
-
+    public float maxSpeed;
+    public WeaponBase weapon;
     
 }

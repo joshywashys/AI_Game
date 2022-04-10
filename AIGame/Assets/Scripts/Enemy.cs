@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Enemy : EntityBase
 {
-    Rigidbody2D rb2d;
+    private Rigidbody2D rb2d;
 
     #region Steering
+    [Header("Heuristic Stats")]
     public float maxSpeed = 15;
-    public float maxAccel = 10;
+    public float maxAccel = 30;
     public float targetSpeed = 15;
     public float timeToTarget = 0.1f;
-    public float slowRadius = 3;
-    public float targetRadius = 2;
+    public float slowRadius = 2;
+    public float targetRadius = 5;
     public float targetRadiusBuffer = 0.2f;
     public float rotationSpeed = 1;
     private Vector2 velocity;
@@ -24,10 +25,8 @@ public class Enemy : EntityBase
         public float angular;
     }
     steeringParams steer;
-
-    steeringParams GetSteering()
-    {
-        /* // Seek
+    
+    /* // Seek
         steeringParams result = new steeringParams();
         result.linear = targetPos - (Vector2)transform.position;
         result.linear.Normalize();
@@ -38,7 +37,20 @@ public class Enemy : EntityBase
         return result;
         */
 
-        // Arrive
+    steeringParams GetFlee()
+    {
+        steeringParams result = new steeringParams();
+        result.linear = (Vector2)transform.position - targetPos;
+        result.linear.Normalize();
+        result.linear *= maxAccel;
+
+        result.angular = 0;
+
+        return result;
+    }
+
+    steeringParams GetArrive()
+    {
         steeringParams result = new steeringParams();
         result.linear = new Vector2(0,0);
         result.angular = 0;
@@ -93,7 +105,6 @@ public class Enemy : EntityBase
     #region Attacking
     // Attacking player
     public WeaponBase weapon;
-    //public float attackRange; //(get from weapons)
 
 
     private void Attack()
@@ -122,25 +133,32 @@ public class Enemy : EntityBase
         velocity = Vector2.zero;
         rb2d = GetComponent<Rigidbody2D>();
         if (weapon != null) { targetRadius = weapon.desiredRange - targetRadiusBuffer; }
-        slowRadius = maxSpeed + targetRadius;
+        slowRadius = targetRadius + 2;
     }
 
     public void FixedUpdate()
     {
-        // Steer
-        //transform.position += (Vector3)velocity * Time.fixedDeltaTime;
-        steeringParams newSteer = GetSteering();
-        velocity += newSteer.linear * Time.fixedDeltaTime;
+        Vector2 direction = target.position - transform.position;
+        float distance = direction.magnitude;
+        
+        steeringParams newSteer = GetArrive();
 
-        if (newSteer.linear != new Vector2(0, 0))
+        // Steer
+        if (newSteer.linear != new Vector2(0, 0)) //if arrived at location
         {
+            velocity += newSteer.linear * Time.fixedDeltaTime;
+            rb2d.MovePosition(rb2d.position + velocity * Time.fixedDeltaTime);
+        }
+        else if (distance < targetRadius - targetRadiusBuffer)
+        {
+            newSteer = GetFlee();
+            velocity += newSteer.linear * Time.fixedDeltaTime;
             rb2d.MovePosition(rb2d.position + velocity * Time.fixedDeltaTime);
         }
         else
         {
-            velocity = new Vector2(0, 0);
+            velocity = Vector2.zero;
         }
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position, Vector3.up), Time.deltaTime * rotationSpeed);  //rotation * Time.deltaTime;
     }
 
     public void LateUpdate()

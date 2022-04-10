@@ -343,12 +343,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 0
   currentHealth: 0
-  maxSpeed: 5
-  maxAccel: 5
-  slowRadius: 1
-  targetRadius: 1
+  maxSpeed: 15
+  maxAccel: 30
+  targetSpeed: 15
+  timeToTarget: 0.1
+  slowRadius: 2
+  targetRadius: 5
+  targetRadiusBuffer: 0.2
   rotationSpeed: 1
   target: {fileID: 1769598523}
+  weapon: {fileID: 0}
 --- !u!212 &1896815205
 SpriteRenderer:
   m_ObjectHideFlags: 0

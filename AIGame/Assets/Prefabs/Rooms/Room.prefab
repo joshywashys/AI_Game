@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641ae7d5c2ab61443b86cc685a0a3670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomTemplate: {fileID: 11400000, guid: a72dbd4d0d38e23489044c69f5b228c2, type: 2}
+  roomTemplate: {fileID: 11400000, guid: a6cb714a7cdc5a746800bf4425e53350, type: 2}
+  debugDoors: 00000000
 --- !u!1 &8426389297588666628
 GameObject:
   m_ObjectHideFlags: 0

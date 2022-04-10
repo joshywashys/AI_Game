@@ -13,20 +13,24 @@ public class RoomBase : MonoBehaviour
 		{ new Vector2Int(-1,  0), false }
 	};
 
+	public bool[] debugDoors = new bool[4];
+
 	public bool RoomHasDoor(Vector2 current)
-    {
-		Vector2Int direction = Vector2Int.RoundToInt(((Vector2)transform.position - current));
-		print(((Vector2)transform.position - current).normalized);
+	{
+		print(current.normalized);
+		Vector2Int direction = Vector2Int.RoundToInt(current.normalized);
 		return doors[direction];
-    }
+	}
 
-    private void Start()
-    {
+	private void Start()
+	{
 		CheckValidRoomLocations();
-		RoomGenerator.AddRoom(transform.position, this);
-    }
+		RoomGenerator.AddRoom(Vector2Int.RoundToInt(transform.position), this);
 
-    public void CheckValidRoomLocations()
+		doors.Values.CopyTo(debugDoors, 0);
+	}
+
+	public void CheckValidRoomLocations()
 	{
 		bool hasNewDoorSpawned = false;
 		List<int> availableRoomIndices = new List<int>();
@@ -34,29 +38,29 @@ public class RoomBase : MonoBehaviour
 
 		Vector2 verticalWallOffset = Vector2.right * roomTemplate.roomSpawnLocationOffsets.x;
 		Vector2 horizontalWallOffset = Vector2.up * roomTemplate.roomSpawnLocationOffsets.y;
-
+		
 		for (int i = 0; i < 4; i++)
 		{
-			float sign = Mathf.Sign(i - 2);
+			float sign = (int)Mathf.Sign(i - 2);
 			bool even = i % 2 == 0;
 
 			Vector2 checkPosition = (even ? horizontalWallOffset : verticalWallOffset) * sign;
-			RoomBase adjacentRoom = RoomGenerator.GetRoom(checkPosition);
+			RoomBase adjacentRoom = RoomGenerator.GetRoom(Vector2Int.RoundToInt((Vector2)transform.position + checkPosition));
 			bool doorAvailable = false;
 			if (adjacentRoom)
 			{
-				doorAvailable = adjacentRoom.RoomHasDoor(transform.position);
+				doorAvailable = adjacentRoom.RoomHasDoor(-checkPosition);
 			}
 			else
-            {
+			{
 				availableRoomIndices.Add(i);
 
 				if (Random.Range(0, 2) == 0)
-                {
+				{
 					doorAvailable = true;
 					hasNewDoorSpawned = true;
 
-					Vector2Int direction = Vector2Int.RoundToInt(((Vector2)transform.position - checkPosition).normalized);
+					Vector2Int direction = Vector2Int.RoundToInt(checkPosition.normalized);
 					doors[direction] = true;
 				}
 			}
@@ -74,14 +78,14 @@ public class RoomBase : MonoBehaviour
 		}
 
 		if (!hasNewDoorSpawned && availableRoomIndices.Count > 0)
-        {
+		{
 			int index = Random.Range(0, availableRoomIndices.Count);
 			ForceDoorPlacement(walls[index], index % 2 == 0);
-        }
+		}
 	}
 
 	public void ForceDoorPlacement(GameObject wall, bool even)
-    {
+	{
 		GameObject doorPrefab = even ? roomTemplate.horizontalDoor : roomTemplate.verticalDoor;
 		Vector2Int direction = Vector2Int.RoundToInt((wall.transform.position - transform.position).normalized);
 		Vector2 roomSpawnLocation = (Vector2)transform.position + direction * roomTemplate.roomSpawnLocationOffsets;
@@ -89,5 +93,5 @@ public class RoomBase : MonoBehaviour
 		Instantiate(doorPrefab, wall.transform.position, wall.transform.rotation, transform).GetComponentInChildren<Door>().Initialize(roomSpawnLocation);
 		doors[direction] = true;
 		Destroy(wall);
-    }
+	}
 }

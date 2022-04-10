@@ -46,6 +46,6 @@ public abstract class WeaponBase : MonoBehaviour
         CombatController.onChargeEvent.RemoveListener(Charge);
     }
 
-    protected abstract void Attack();
-    protected abstract void Charge();
+    public abstract void Attack();
+    public abstract void Charge();
 }

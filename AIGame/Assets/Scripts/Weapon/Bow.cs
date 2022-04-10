@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Bow : WeaponBase
 {
-    protected override void Attack()
+    public override void Attack()
     {
         print("Attacking");
     }
 
-    protected override void Charge()
+    public override void Charge()
     {
         print("Charging");
     }

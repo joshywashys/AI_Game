@@ -15,7 +15,7 @@ public class Door : MonoBehaviour
         if (m_hasSpawnedRoom)
             return;
 
-        RoomGenerator.GenerateRoom(m_roomSpawnPos);
+        RoomGenerator.GenerateRoom(Vector2Int.RoundToInt(m_roomSpawnPos));
         m_hasSpawnedRoom = true;
     }
 }

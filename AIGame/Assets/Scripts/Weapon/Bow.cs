@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Bow : WeaponBase
 {
-    public override void Attack()
-    {
-        print("Attacking");
-    }
+	public override void Attack(float charge)
+	{
+		base.Attack(charge);
 
-    public override void Charge()
-    {
-        print("Charging");
-    }
+		print("Attacking");
+	}
+
+	public override void Charge(float charge)
+	{
+		base.Charge(charge);
+	}
 }

@@ -1,25 +1,19 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class CombatController : MonoBehaviour
 {
 	public WeaponBase equipedWeapon = null;
 	public float distance = 0.5f;
+	public float charge = 0.0f;
 
 	// Events
-	public UnityEvent onAttackEvent = new UnityEvent();
-	public UnityEvent onChargeEvent = new UnityEvent();
+	public UnityEvent<float> onAttackEvent = new UnityEvent<float>();
+	public UnityEvent<float> onChargeEvent = new UnityEvent<float>();
 	public UnityEvent<GameObject> onWeaponChangeEvent = new UnityEvent<GameObject>();
 
 	private Rigidbody2D m_rigidbody;
-	
-	private bool m_attackInput = false;
-
-	private Vector2 m_mousePos = Vector3.zero;
-
-	public void OnAttack(InputAction.CallbackContext context) { if (m_attackInput != context.performed) Attack(context); }
-	public void OnMousePosition(InputAction.CallbackContext context) { m_mousePos = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()); }
 
 	// Setters
 	public void EquipWeapon(WeaponBase weapon) { equipedWeapon = weapon; onWeaponChangeEvent?.Invoke(weapon.gameObject); }
@@ -34,25 +28,36 @@ public class CombatController : MonoBehaviour
 		equipedWeapon.Equip();
 	}
 
-	private void Update()
+	public void Attack()
 	{
-		PositionAndRotateWeapon();
+		if (isCharging != null)
+		{
+			StopCoroutine(isCharging);
+			isCharging = null;
+		}
+		onAttackEvent?.Invoke(charge); 	
 	}
 
-	private void Attack(InputAction.CallbackContext context)
-	{
-		if (context.performed)
-			onChargeEvent?.Invoke(); 
-		else 
-			onAttackEvent?.Invoke(); 
-		
-		m_attackInput = context.performed;
+	public void Charge()
+    {
+		if (isCharging == null)
+			isCharging = StartCoroutine(Charging());
 	}
 
-	public void PositionAndRotateWeapon()
+	private Coroutine isCharging = null;
+	private IEnumerator Charging()
+    {
+		while (true)
+		{
+			onChargeEvent?.Invoke(charge);
+			yield return null;
+		}
+	}
+
+	public void Aim(Vector2 target)
 	{
-		Vector2 mouseRelPos = m_mousePos - m_rigidbody.position;
-		float angle = Mathf.Atan2(mouseRelPos.y, mouseRelPos.x);
+		Vector2 aimRelPos = target - m_rigidbody.position;
+		float angle = Mathf.Atan2(aimRelPos.y, aimRelPos.x);
 
 		// Position
 		Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));

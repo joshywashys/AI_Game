@@ -524,8 +524,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 804343027}
-        m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
+      - m_Target: {fileID: 804343029}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
@@ -540,8 +540,8 @@ MonoBehaviour:
     m_ActionName: Player/Attack
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 804343027}
-        m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
+      - m_Target: {fileID: 804343029}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnMousePosition
         m_Mode: 0
         m_Arguments:
@@ -598,6 +598,7 @@ MonoBehaviour:
   onWeaponChangeEvent:
     m_PersistentCalls:
       m_Calls: []
+  charge: 0
 --- !u!58 &804343028
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1003,9 +1004,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3666517470462143795, guid: 628c3a57d8ee3554788f60600e42b159, type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 804343029}
+    - target: {fileID: 3666517470462143795, guid: 628c3a57d8ee3554788f60600e42b159, type: 3}
       propertyPath: rigidbody
       value: 
       objectReference: {fileID: 1975847492}
+    - target: {fileID: 3666517470462143795, guid: 628c3a57d8ee3554788f60600e42b159, type: 3}
+      propertyPath: chargeTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3666517470462143795, guid: 628c3a57d8ee3554788f60600e42b159, type: 3}
       propertyPath: references
       value: 

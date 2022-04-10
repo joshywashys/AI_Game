@@ -33,11 +33,4 @@ public class Enemy : EntityBase
         //uses weapon
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Projectile proj = collision.gameObject.GetComponent<Projectile>();
-        if (proj != null) {
-            Damage(proj.damage);
-        }
-    }
 }

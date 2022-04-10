@@ -7,12 +7,16 @@ public class Enemy : EntityBase
     Rigidbody2D rb2d;
 
     #region Steering
-    public float maxSpeed = 8;
-    public float maxAccel = 1;
-    public float slowRadius = 1;
-    public float targetRadius = 1;
+    public float maxSpeed = 15;
+    public float maxAccel = 10;
+    public float targetSpeed = 15;
+    public float timeToTarget = 0.1f;
+    public float slowRadius = 3;
+    public float targetRadius = 2;
+    public float targetRadiusBuffer = 0.2f;
     public float rotationSpeed = 1;
     private Vector2 velocity;
+    private Vector2 targetVelocity;
 
     struct steeringParams
     {
@@ -23,6 +27,7 @@ public class Enemy : EntityBase
 
     steeringParams GetSteering()
     {
+        /* // Seek
         steeringParams result = new steeringParams();
         result.linear = targetPos - (Vector2)transform.position;
         result.linear.Normalize();
@@ -30,6 +35,39 @@ public class Enemy : EntityBase
 
         result.angular = 0;
 
+        return result;
+        */
+
+        // Arrive
+        steeringParams result = new steeringParams();
+        result.linear = new Vector2(0,0);
+        result.angular = 0;
+
+        Vector2 direction = target.position - transform.position;
+        float distance = direction.magnitude;
+        if (distance < targetRadius) { return result; }
+        if (distance > slowRadius)
+        {
+            targetSpeed = maxSpeed;
+        }
+        else
+        {
+            targetSpeed = maxSpeed * ((distance - targetRadius) / slowRadius);
+        }
+
+        targetVelocity = direction;
+        targetVelocity.Normalize();
+        targetVelocity *= targetSpeed;
+
+        result.linear = targetVelocity - velocity;
+        result.linear /= timeToTarget;
+
+        if (result.linear.magnitude > maxAccel)
+        {
+            result.linear.Normalize();
+            result.linear *= maxAccel;
+        }
+        result.angular = 0;
         return result;
     }
 
@@ -83,23 +121,33 @@ public class Enemy : EntityBase
         if (target == null) { GetPlayer(); } //ignore player if target set in editor
         velocity = Vector2.zero;
         rb2d = GetComponent<Rigidbody2D>();
-        targetRadius = weapon.;
-        slowRadius = maxSpeed * 2 + targetRadius;
+        if (weapon != null) { targetRadius = weapon.desiredRange - targetRadiusBuffer; }
+        slowRadius = maxSpeed + targetRadius;
     }
 
     public void FixedUpdate()
     {
-        // Update Variables
-        targetPos = target.position;
-        steeringParams newSteer = GetSteering();
-
-        velocity += newSteer.linear * Time.fixedDeltaTime;
-        //rotation = newSteer.angular;
-
         // Steer
         //transform.position += (Vector3)velocity * Time.fixedDeltaTime;
-        rb2d.MovePosition(rb2d.position + velocity * Time.fixedDeltaTime);
+        steeringParams newSteer = GetSteering();
+        velocity += newSteer.linear * Time.fixedDeltaTime;
+
+        if (newSteer.linear != new Vector2(0, 0))
+        {
+            rb2d.MovePosition(rb2d.position + velocity * Time.fixedDeltaTime);
+        }
+        else
+        {
+            velocity = new Vector2(0, 0);
+        }
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position, Vector3.up), Time.deltaTime * rotationSpeed);  //rotation * Time.deltaTime;
+    }
+
+    public void LateUpdate()
+    {
+        // Update Variables
+        targetPos = target.position;
+        //rotation = newSteer.angular;
     }
     #endregion
 

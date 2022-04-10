@@ -32,5 +32,4 @@ public class Enemy : EntityBase
     {
         //uses weapon
     }
-
 }

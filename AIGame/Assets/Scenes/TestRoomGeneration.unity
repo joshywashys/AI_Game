@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4dcfa4f2ca4cc8489a02e1fc8135887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 3
   currentHealth: 0
 --- !u!1 &1049192652
 GameObject:
@@ -769,6 +769,7 @@ GameObject:
   - component: {fileID: 1057956299}
   - component: {fileID: 1057956298}
   - component: {fileID: 1057956300}
+  - component: {fileID: 1057956301}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -788,7 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772cd18926f4fc9428defddd222952d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 0}
   player: {fileID: 804343029}
 --- !u!4 &1057956299
 Transform:
@@ -818,6 +818,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 8426389297508006533, guid: 5182103be8c902e4fbdf69225d8e44f8, type: 3}
   roomCount: 0
+--- !u!114 &1057956301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057956297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ccc1a6210569b6469b5d9935489ef38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingDifficulty: 10
+  difficultyIncrement: 5
 --- !u!1 &1763380910
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e858ea5cc868a14595525cc08bfdaf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 11400000, guid: f31c446b4d1407c4b84042fc337051d0, type: 2}
+  playerController: {fileID: 804343029}
   healthRoot: {fileID: 1049192653}
   heartPrefab: {fileID: 4528948423665791790, guid: 5578037d76bbb2e4c919b5fcc298e505, type: 3}
   onShowEvent:

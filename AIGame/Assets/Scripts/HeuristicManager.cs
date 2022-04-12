@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HeuristicManager : MonoBehaviour
 {
-    private RoomGenerator rg;
     [SerializeField] private int startingDifficulty = 10;
     [SerializeField] private int difficultyIncrement = 5;
     private int currDifficulty;
@@ -24,6 +23,7 @@ public class HeuristicManager : MonoBehaviour
 
     void Start()
     {
+        currDifficulty = startingDifficulty;
         RoomGenerator.onRoomGenerated.AddListener(increaseDifficulty);
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class RoomGenerator : MonoBehaviour
 {
 	public static RoomGenerator Instance;
-    public static UnityEvent onRoomGenerated;
+    public static UnityEvent onRoomGenerated = new UnityEvent();
 
     public GameObject roomPrefab;
 

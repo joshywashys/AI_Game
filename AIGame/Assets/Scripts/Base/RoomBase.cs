@@ -17,7 +17,6 @@ public class RoomBase : MonoBehaviour
 
 	public bool RoomHasDoor(Vector2 current)
 	{
-		print(current.normalized);
 		Vector2Int direction = Vector2Int.RoundToInt(current.normalized);
 		return doors[direction];
 	}

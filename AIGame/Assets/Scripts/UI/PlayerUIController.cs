@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class PlayerUIController : MonoBehaviour
 {
-	public RuntimePlayerSO playerStats = null;
+	public PlayerController playerController = null;
 	public Transform healthRoot = null;
 
 	public Image heartPrefab = null;
@@ -27,7 +27,7 @@ public class PlayerUIController : MonoBehaviour
 
 	public void Initialize()
 	{
-		for (int i = 0; i < playerStats.maxHealth; i++)
+		for (int i = 0; i < playerController.maxHealth; i++)
     		heartVisuals.Add(Instantiate(heartPrefab, healthRoot));
     }
 
@@ -35,7 +35,7 @@ public class PlayerUIController : MonoBehaviour
     {
 		for (int i = heartVisuals.Count - 1; i >= 0; i--)
 		{
-			float fillAmount = (i >= playerStats.currentHealth) ? 0 : playerStats.currentHealth - i / 1.0f;
+			float fillAmount = (i >= playerController.currentHealth) ? 0 : playerController.currentHealth - i / 1.0f;
 			heartVisuals[i].fillAmount = fillAmount;
 		}
 	}

@@ -28,9 +28,9 @@ public class Door : MonoBehaviour
 			m_hasSpawnedRoom = true;
 		}
 
-		RoomBase room = RoomGenerator.GetRoom(Vector2Int.RoundToInt(m_roomSpawnPos));
-		if (room != null && !room.roomCleared)
-			CameraController.onTransitionComplete.AddListener(room.ShutDoors);
+		//RoomBase room = RoomGenerator.GetRoom(Vector2Int.RoundToInt(m_roomSpawnPos));
+		//if (room != null && !room.roomCleared)
+		//	CameraController.onTransitionComplete.AddListener(room.ShutDoors);
 
 		float timeToComplete = 1.0f;
 		CameraController.MoveTo(m_roomSpawnPos, timeToComplete);

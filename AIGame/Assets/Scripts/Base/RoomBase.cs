@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class RoomBase : MonoBehaviour
 {
+	public GameObject[] enemyPrefab;
+	
 	public RoomTemplateSO roomTemplate;
-	public bool roomCleared = false;
+	public bool roomCleared = true;
 
 	public List<Enemy> enemies = new List<Enemy>();
 	private Dictionary<Vector2Int, bool> doors = new Dictionary<Vector2Int, bool>
@@ -38,6 +40,13 @@ public class RoomBase : MonoBehaviour
 	{
 		CheckValidRoomLocations();
 		RoomGenerator.AddRoom(Vector2Int.RoundToInt(transform.position), this);
+
+		int enemiesToSpawn = Mathf.FloorToInt(HeuristicManager.currDifficulty / 5.0f);
+		for (int i = 0; i < enemiesToSpawn; i++)
+		{
+			Enemy eneny = Instantiate(enemyPrefab[0], transform.position, Quaternion.identity).GetComponent<Enemy>();
+			enemies.Add(eneny);
+		}
 	}
 
     private void Update()

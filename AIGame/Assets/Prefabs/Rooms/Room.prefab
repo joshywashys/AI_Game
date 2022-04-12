@@ -44,8 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641ae7d5c2ab61443b86cc685a0a3670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab:
+  - {fileID: 6574483191703059038, guid: f0d1fc9441f22e04baf9a4e616f0dd4b, type: 3}
   roomTemplate: {fileID: 11400000, guid: a6cb714a7cdc5a746800bf4425e53350, type: 2}
-  debugDoors: 00000000
+  roomCleared: 0
+  enemies: []
 --- !u!1 &8426389297588666628
 GameObject:
   m_ObjectHideFlags: 0

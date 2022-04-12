@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomGenerator : MonoBehaviour
 {
 	public static RoomGenerator Instance;
+    public static UnityEvent onRoomGenerated;
 
     public GameObject roomPrefab;
 
@@ -35,5 +37,7 @@ public class RoomGenerator : MonoBehaviour
             return;
 
         Instantiate(Instance.roomPrefab, ((Vector3Int)position), Quaternion.identity);
+
+        onRoomGenerated?.Invoke();
     }
 }

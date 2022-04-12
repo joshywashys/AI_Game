@@ -4,7 +4,9 @@ using UnityEngine;
 public class RoomBase : MonoBehaviour
 {
 	public RoomTemplateSO roomTemplate;
-	
+	public bool roomCleared = false;
+
+	public List<Enemy> enemies = new List<Enemy>();
 	private Dictionary<Vector2Int, bool> doors = new Dictionary<Vector2Int, bool>
 	{
 		{ new Vector2Int( 0,  1), false },
@@ -13,8 +15,6 @@ public class RoomBase : MonoBehaviour
 		{ new Vector2Int(-1,  0), false }
 	};
 
-	public bool[] debugDoors = new bool[4];
-
 	public bool RoomHasDoor(Vector2 current)
 	{
 		print(current.normalized);
@@ -22,15 +22,36 @@ public class RoomBase : MonoBehaviour
 		return doors[direction];
 	}
 
+	public void ShutDoors() => ControlDoors(true);
+	public void OpenDoors() => ControlDoors(false);
+	
+	private void ControlDoors(bool closed)
+	{
+		Door[] doorComponents = GetComponentsInChildren<Door>();
+		foreach (Door door in doorComponents)
+		{
+			door.trigger.enabled = !closed;
+			door.visual.SetActive(closed);
+		}
+	}
+
 	private void Start()
 	{
 		CheckValidRoomLocations();
 		RoomGenerator.AddRoom(Vector2Int.RoundToInt(transform.position), this);
-
-		doors.Values.CopyTo(debugDoors, 0);
 	}
 
-	public void CheckValidRoomLocations()
+    private void Update()
+    {
+        if (enemies.Count <= 0 && !roomCleared)
+        {
+			OpenDoors();
+			roomCleared = true;
+			CameraController.onTransitionComplete.RemoveListener(ShutDoors);
+        }
+    }
+
+    public void CheckValidRoomLocations()
 	{
 		bool hasNewDoorSpawned = false;
 		List<int> availableRoomIndices = new List<int>();

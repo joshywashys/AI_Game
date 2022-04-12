@@ -24,8 +24,7 @@ public class HeuristicManager : MonoBehaviour
 
     void Start()
     {
-        rg = FindObjectOfType<RoomGenerator>();
-        rg.OnRoomGenerated.AddListener(increaseDifficulty);
+        RoomGenerator.onRoomGenerated.AddListener(increaseDifficulty);
     }
 
 }

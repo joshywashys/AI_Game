@@ -5,14 +5,13 @@ using UnityEngine.Events;
 public class RoomGenerator : MonoBehaviour
 {
 	public static RoomGenerator Instance;
+    public static UnityEvent onRoomGenerated;
 
     public GameObject roomPrefab;
 
     public int roomCount = 0;
 
 	private static Dictionary<Vector2Int, RoomBase> rooms = new Dictionary<Vector2Int, RoomBase>();
-
-    public UnityEvent OnRoomGenerated;
 
     private void Awake()
     {
@@ -38,6 +37,7 @@ public class RoomGenerator : MonoBehaviour
             return;
 
         Instantiate(Instance.roomPrefab, ((Vector3Int)position), Quaternion.identity);
-        Instance.OnRoomGenerated.Invoke();
+
+        onRoomGenerated?.Invoke();
     }
 }

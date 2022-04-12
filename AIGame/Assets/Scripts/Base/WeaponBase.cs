@@ -5,6 +5,7 @@ public abstract class WeaponBase : MonoBehaviour
 {
 	public EntityBase owner;
 
+    public float damage;
 	public float chargeTime;
 	public float desiredRange = 0;
 

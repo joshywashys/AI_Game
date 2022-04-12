@@ -7,10 +7,19 @@ public class EnemySO : EntitySO
     public float maxSpeed;
     public WeaponBase weapon;
 
-    public enum Behaviour
+    [Header("Complex Traits")]
+    public bool floats; //avoids obstacles, cant get AvoidWalls
+
+    public enum BehaviourTypes
     {
-        Arrive,
-        Wander
+        Wander,
+        Arrive
+    }
+
+    public enum BehavioursAdditional
+    {
+        Flee, //impossible if
+        AvoidWalls, //avoid walls
     }
     
 }

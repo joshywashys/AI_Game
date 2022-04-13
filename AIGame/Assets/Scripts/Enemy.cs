@@ -25,7 +25,27 @@ public class Enemy : EntityBase
         public float angular;
     }
     steeringParams steer;
-    
+
+    public static Enemy GenerateEnemy(EnemySO stats)
+    {
+        Enemy newEnemy = new Enemy();
+
+        newEnemy.maxHealth = stats.maxHealth;
+        newEnemy.currentHealth = newEnemy.maxHealth;
+
+        newEnemy.maxSpeed = stats.maxSpeed;
+        newEnemy.maxAccel = newEnemy.maxSpeed * 2;
+        newEnemy.targetSpeed = newEnemy.maxSpeed * 2;
+        newEnemy.timeToTarget = 0.1f;
+        newEnemy.slowRadius = 2;
+        newEnemy.targetRadiusBuffer = 0.2f;
+        newEnemy.rotationSpeed = 1;
+
+        newEnemy.weapon = stats.weapon;
+
+        return newEnemy;
+    }
+
     /* // Seek
         steeringParams result = new steeringParams();
         result.linear = targetPos - (Vector2)transform.position;
@@ -36,6 +56,15 @@ public class Enemy : EntityBase
 
         return result;
         */
+
+    /*
+    steeringParams GetWander()
+    {
+        steeringParams result = new steeringParams();
+        //result.linear = maxSpeed * gameObject;
+        result.angular = Random.Range(-1f, 1f) - Random.Range(-1f, 1f);
+    }
+    */
 
     steeringParams GetFlee()
     {
@@ -116,7 +145,7 @@ public class Enemy : EntityBase
     public override void Damage(float amount)
     {
         currentHealth -= amount;
-        if (currentHealth <= 0) { Die();  }
+        if (currentHealth <= 0) { Die(); }
     }
 
     public override void Die()

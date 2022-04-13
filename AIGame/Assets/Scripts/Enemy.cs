@@ -1,8 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : EntityBase
 {
     private Rigidbody2D rb2d;
+    private IEnumerator attackCoroutine;
+    public GameObject projectile;
 
     #region Steering
     [Header("Heuristic Stats")]
@@ -131,11 +134,30 @@ public class Enemy : EntityBase
     // Attacking player
     public WeaponBase weapon;
 
+    IEnumerator Attack()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.0f);
+            //weapon.Attack(1.0f);
+            GameObject newProj = Instantiate(projectile, transform.position + transform.up, transform.rotation);
 
+            Vector2 direction = target.position - transform.position;
+            direction.Normalize();
+
+            newProj.GetComponent<Rigidbody2D>().AddForce(direction * 5, ForceMode2D.Impulse);
+
+            print("attacked");
+            print(newProj);
+        }
+    }
+
+    /*
     private void Attack()
     {
         weapon.Attack(1.0f);
     }
+    */
     #endregion
 
     public override void Damage(float amount)
@@ -159,6 +181,11 @@ public class Enemy : EntityBase
         rb2d = GetComponent<Rigidbody2D>();
         if (weapon != null) { targetRadius = weapon.desiredRange - targetRadiusBuffer; }
         slowRadius = targetRadius + 2;
+
+        weapon = new Bow();
+
+        attackCoroutine = Attack();
+        StartCoroutine(attackCoroutine);
     }
 
     public void FixedUpdate()
@@ -184,6 +211,13 @@ public class Enemy : EntityBase
         {
             velocity = Vector2.zero;
         }
+
+        Vector3 diff = targetPos - (Vector2)transform.position;
+        diff.Normalize();
+
+        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+
     }
 
     public void LateUpdate()

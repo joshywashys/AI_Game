@@ -44,8 +44,15 @@ public class RoomBase : MonoBehaviour
 		int enemiesToSpawn = Mathf.FloorToInt(HeuristicManager.currDifficulty / 5.0f);
 		for (int i = 0; i < enemiesToSpawn; i++)
 		{
-			Enemy eneny = Instantiate(enemyPrefab[0], transform.position, Quaternion.identity).GetComponent<Enemy>();
-			enemies.Add(eneny);
+			int enemyDifficulty = HeuristicManager.currDifficulty;
+
+			List<EnemySO> enemiesList = HeuristicManager.GetEnemies(enemyDifficulty);
+			int enemyIndex = Random.Range(0, enemiesList.Count);
+			EnemySO enemySO = enemiesList[enemyIndex];
+
+			Enemy newEnemy = Instantiate(enemyPrefab[0], transform.position, Quaternion.identity).GetComponent<Enemy>();
+			newEnemy.GenerateEnemy(enemySO, enemyDifficulty);
+			enemies.Add(newEnemy);
 		}
 	}
 

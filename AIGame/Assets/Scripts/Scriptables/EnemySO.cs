@@ -25,13 +25,14 @@ public class EnemySO : EntitySO
     
     public static EnemySO GenerateEnemySO(int difficulty)
     {
-        EnemySO newEnemySO = new EnemySO();
+        EnemySO newEnemySO = CreateInstance<EnemySO>();
 
-        int newHealth = difficulty / Random.Range(1, difficulty);
+        int newHealth = Random.Range(1, difficulty);
+        
         newEnemySO.maxHealth = newHealth;
         newEnemySO.maxSpeed = difficulty / newHealth;
 
-        newEnemySO.weapon = new Bow();
+        //newEnemySO.weapon = new Bow();
 
         return newEnemySO;
     }

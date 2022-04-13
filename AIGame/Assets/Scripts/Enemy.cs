@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : EntityBase
@@ -26,24 +24,22 @@ public class Enemy : EntityBase
     }
     steeringParams steer;
 
-    public static Enemy GenerateEnemy(EnemySO stats)
+    public void GenerateEnemy(EnemySO stats, int difficulty)
     {
-        Enemy newEnemy = new Enemy();
+        int newHealth = Random.Range(1, difficulty);
 
-        newEnemy.maxHealth = stats.maxHealth;
-        newEnemy.currentHealth = newEnemy.maxHealth;
+        maxHealth = newHealth;
+        currentHealth = maxHealth;
 
-        newEnemy.maxSpeed = stats.maxSpeed;
-        newEnemy.maxAccel = newEnemy.maxSpeed * 2;
-        newEnemy.targetSpeed = newEnemy.maxSpeed * 2;
-        newEnemy.timeToTarget = 0.1f;
-        newEnemy.slowRadius = 2;
-        newEnemy.targetRadiusBuffer = 0.2f;
-        newEnemy.rotationSpeed = 1;
+        maxSpeed = stats.maxSpeed;
+        maxAccel = maxSpeed * 2;
+        targetSpeed = maxSpeed * 2;
+        timeToTarget = 0.1f;
+        slowRadius = 2;
+        targetRadiusBuffer = 0.2f;
+        rotationSpeed = 1;
 
-        newEnemy.weapon = stats.weapon;
-
-        return newEnemy;
+        weapon = stats.weapon;
     }
 
     /* // Seek
@@ -138,7 +134,7 @@ public class Enemy : EntityBase
 
     private void Attack()
     {
-        //weapon.Attack();
+        weapon.Attack(1.0f);
     }
     #endregion
 
